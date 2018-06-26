@@ -13,7 +13,7 @@
 (rum/defc hello-world []
   [:div
    [:h1 (:text @app-state)]
-   [:h3 "Edit this and watch it change!"]])
+   [:h3 "Welcome to brand new website!"]])
 
 (rum/mount (hello-world)
            (. js/document (getElementById "app")))
