@@ -65,6 +65,8 @@
 
              ;; doesn't work for you just run your own server :) (see lein-ring)
 
+             :ring-handler ring-handler/handler
+
              ;; :ring-handler hello_world.server/handler
 
              ;; To be able to open files in your editor from the heads up display
