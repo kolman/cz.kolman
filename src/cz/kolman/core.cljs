@@ -1,7 +1,8 @@
 (ns cz.kolman.core
   (:require [rum.core :as rum]
             [bidi.bidi :as bidi]
-            [pushy.core :as pushy]))
+            [pushy.core :as pushy]
+            [ajax.core :as ajax]))
 
 (enable-console-print!)
 
@@ -32,10 +33,25 @@
 
 ;; views
 
+(defonce response (atom nil))
+
+(defn send-request []
+  (ajax/POST "/api/echo"
+             {:params {:body "foo bar"}}
+             :handler #(.log js/console %)))
+
+(rum/defc echo []
+  [:div
+    [:input {:type "text"}]
+    [:button {:on-click send-request} "send"]
+    [:div
+     [:p "result:"]]])
+
 (rum/defc hello-world []
   [:div
    [:h1 (:text @app-state)]
    [:h3 "Welcome to brand new website!"]
+   (echo)
    [:p [:a {:href (url-for :about)} "About"]]])
 
 (rum/defc about []

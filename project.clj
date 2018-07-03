@@ -11,10 +11,16 @@
                  [org.clojure/core.async  "0.4.474"]
                  [rum "0.11.2"]
                  [bidi "2.1.3"]
-                 [kibu/pushy "0.3.8"]]
+                 [kibu/pushy "0.3.8"]
+                 [cljs-ajax "0.7.3"]
+
+                 ;; Libraries for dev server and proxy
+                 [ring/ring-defaults "0.3.2"]
+                 [puppetlabs/ring-middleware "1.0.0"]]
 
   :plugins [[lein-figwheel "0.5.16"]
-            [lein-cljsbuild "1.1.7" :exclusions [[org.clojure/clojure]]]]
+            [lein-cljsbuild "1.1.7" :exclusions [[org.clojure/clojure]]]
+            [lein-ring "0.12.4"]]
 
   :source-paths ["src"]
 
@@ -50,6 +56,8 @@
                            :optimizations :advanced
                            :pretty-print false}}]}
 
+  :ring {:handler cz.kolman.ring-handler/app}
+
   :figwheel {;; :http-server-root "public" ;; default and assumes "resources"
              ;; :server-port 3449 ;; default
              ;; :server-ip "127.0.0.1"
@@ -65,7 +73,7 @@
 
              ;; doesn't work for you just run your own server :) (see lein-ring)
 
-             :ring-handler ring-handler/handler
+             :ring-handler cz.kolman.ring-handler/app
 
              ;; :ring-handler hello_world.server/handler
 
@@ -88,7 +96,7 @@
              ;; :server-logfile "tmp/logs/figwheel-logfile.log"
 
              ;; to pipe all the output to the repl
-             ;; :server-logfile false
+             :server-logfile false
              }
 
 
