@@ -15,7 +15,9 @@
                  [cljs-ajax "0.7.3"]
 
                  ;; Libraries for dev server and proxy
+                 [ring-server "0.5.0"]
                  [ring/ring-defaults "0.3.2"]
+                 [compojure "1.6.1"]
                  [puppetlabs/ring-middleware "1.0.0"]]
 
   :plugins [[lein-figwheel "0.5.16"]
@@ -36,7 +38,7 @@
                            ;; in the default browser once Figwheel has
                            ;; started and compiled your application.
                            ;; Comment this out once it no longer serves you.
-                           :open-urls ["http://localhost:3449/index.html"]}
+                           :open-urls ["http://localhost:3000"]}
 
                 :compiler {:main cz.kolman.core
                            :asset-path "js/compiled/out"
@@ -58,24 +60,13 @@
 
   :ring {:handler cz.kolman.ring-handler/app}
 
-  :figwheel {;; :http-server-root "public" ;; default and assumes "resources"
-             ;; :server-port 3449 ;; default
-             ;; :server-ip "127.0.0.1"
-
-             :css-dirs ["resources/public/css"] ;; watch and update CSS
+  :figwheel {:css-dirs ["resources/public/css"] ;; watch and update CSS
 
              ;; Start an nREPL server into the running figwheel process
              ;; :nrepl-port 7888
 
-             ;; Server Ring Handler (optional)
-             ;; if you want to embed a ring handler into the figwheel http-kit
-             ;; server, this is for simple ring servers, if this
-
-             ;; doesn't work for you just run your own server :) (see lein-ring)
-
-             :ring-handler cz.kolman.ring-handler/app
-
-             ;; :ring-handler hello_world.server/handler
+             :init user/start-server
+             :destroy user/stop-server
 
              ;; To be able to open files in your editor from the heads up display
              ;; you will need to put a script on your path.
