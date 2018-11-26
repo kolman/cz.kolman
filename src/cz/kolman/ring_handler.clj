@@ -17,6 +17,7 @@
   (-> app-routes
       (wrap-defaults site-defaults)
       ;; Proxy to AWS lambda backend
-      (wrap-proxy "/api" "https://35h973s33e.execute-api.us-east-1.amazonaws.com/dev")
-      ))
+      (wrap-proxy "/api"
+
+                  "https://35h973s33e.execute-api.us-east-1.amazonaws.com/dev")))
 

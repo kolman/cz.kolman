@@ -37,28 +37,54 @@
 
 (defn send-request []
   (ajax/POST "/api/echo"
-             {:params {:body "foo bar"}}
-             :handler #(.log js/console %)))
+    {:params {:body "foo bar"}}
+    :handler #(.log js/console %)))
 
 (rum/defc echo []
   [:div
-    [:input {:type "text"}]
-    [:button {:on-click send-request} "send"]
-    [:div
-     [:p "result:"]]])
+   [:input {:type "text"}]
+   [:button {:on-click send-request} "send"]
+   [:div
+    [:p "result:"]]])
+
+(rum/defcs navbar < (rum/local false ::open)
+  [state]
+  (let [active? (::open state)
+        active-class (when @active? "is-active")]
+    [:nav.navbar.is-spaced.has-shadow {:role "navigation" :aria-label "main navigation"}
+     [:.container
+      [:.navbar-brand
+       [:a.navbar-item.logo.is-size-4 {:href (url-for :home)} "KOLMAN.cz"]
+       [:a.navbar-burger {:role "button"
+                          :class [active-class]
+                          :on-click (fn [_] (swap! active? not))
+                          :aria-label "menu" :aria-expanded false}
+        [:span {:aria-hidden true}]
+        [:span {:aria-hidden true}]
+        [:span {:aria-hidden true}]]]
+      [:.navbar-menu {:id "navbarMenu" :class [active-class]}
+       [:.navbar-start
+        [:a.navbar-item {:href (url-for :home)} "Home"]
+        [:a.navbar-item {:href (url-for :about)} "About"]]
+       [:.navbar-end
+        [:.navbar-item "Nothing here"]]]]]))
+
+(rum/defc chrome [& content]
+  [(navbar)
+   [:section.section
+    [:main.container
+     content]]])
 
 (rum/defc hello-world []
-  [:div
-   [:h1 (:text @app-state)]
-   [:h3 "Welcome to brand new website!"]
-   (echo)
-   [:p [:a {:href (url-for :about)} "About"]]])
+  (chrome
+   [:h1.title (:text @app-state)]
+   [:h3.subtitle "Welcome to brand new website!"]
+   (echo)))
 
 (rum/defc about []
-  [:div
-   [:h1 (:text @app-state)]
-   [:h3 "About this site..."]
-   [:p [:a {:href (url-for :home)} "Overview"]]])
+  (chrome
+   [:h1.title (:text @app-state)]
+   [:h3.subtitle "This is an experimental website to test new technologies"]))
 
 (rum/defc app < rum/reactive []
   (case (rum/react page)
