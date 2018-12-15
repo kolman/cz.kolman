@@ -74,13 +74,21 @@
   []
   (chrome [:h1.title (:text @app-state)]
           [:h3.subtitle "Welcome to brand new website!"]
-          (echo)))
+          #_(echo)))
 
 (rum/defc about
   []
   (chrome [:h1.title (:text @app-state)]
           [:h3.subtitle
-           "This is an experimental website to test new technologies"]))
+           "This is an experimental website to test new technologies"]
+          [:p [:strong "Language"] " ClojureScript"]
+          [:p [:strong "Frontend framework"] " React + RUM"]
+          [:p [:strong "Frontend routing"] " bidi + pushy"]
+          [:p [:strong "CSS framework"] " Bulma"]
+          [:p [:strong "Content delivery"] " Netlify"]
+          [:p [:strong "Backend"] " AWS Lambda"]
+          [:p [:strong "Editor"] " NeoVim + VimR"]
+          ))
 
 (rum/defc app
   < rum/reactive
